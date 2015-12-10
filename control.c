@@ -3,8 +3,16 @@
 int main(int argc, char *argv[]) {
 	int f, sh, sem;
 	if(!strcmp(argv[1], "-r")) {
-		shmctl(sh, IPC_RMID);
-		semctl(sem, 0, IMP_RMID);
+		int check = shmctl(sh, IPC_RMID);
+		if(check == -1) {
+			printf("Error: %s", strerror(errno));
+		}
+
+		check = semctl(sem, 0, IMP_RMID);
+		if(check == -1) {
+			printf("Error: %s", strerror(errno));
+		}
+
 	}
 	else if(!strcmp(argv[1], "-c")) {
 		f = open("story.out", O_CREAT, 644);
