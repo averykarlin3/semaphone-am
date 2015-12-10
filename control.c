@@ -19,11 +19,11 @@ int main(int argc, char *argv[]) {
 		if(f < 0) {
 			printf("Error: %s", strerror(errno));
 		}
-		sh = shmget(ftok(story.out, 17), sizeof(int), 644 | IPC_CREAT);
+		sh = shmget(ftok(story.out, 0), sizeof(int), 644 | IPC_CREAT);
 		if(sh < 0) {
 			printf("Error: %s", strerror(errno));
 		}
-		sem = semget(ftok(story.out, 18), 1, IPC_CREAT);
+		sem = semget(ftok(story.out, 1), 1, IPC_CREAT);
 		if(sem < 0) {
 			printf("Error: %s", strerror(errno));
 		}
@@ -32,4 +32,5 @@ int main(int argc, char *argv[]) {
 		printf("No input");
 		return 0;
 	}
+	return 0;
 }
