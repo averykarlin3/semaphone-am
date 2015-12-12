@@ -3,12 +3,12 @@
 int main(int argc, char *argv[]) {
 	int f, sh, sem;
 	if(!strcmp(argv[1], "-r")) {
-		int check = shmctl(sh, IPC_RMID);
+		int check = shmctl(sh, IPC_RMID, NULL);
 		if(check == -1) {
 			printf("Error: %s", strerror(errno));
 		}
 
-		check = semctl(sem, 0, IMP_RMID);
+		check = semctl(sem, 0, IPC_RMID);
 		if(check == -1) {
 			printf("Error: %s", strerror(errno));
 		}
@@ -19,11 +19,11 @@ int main(int argc, char *argv[]) {
 		if(f < 0) {
 			printf("Error: %s", strerror(errno));
 		}
-		sh = shmget(ftok(story.out, 0), sizeof(int), 644 | IPC_CREAT);
+		sh = shmget(ftok("story.out", 0), sizeof(int), 644 | IPC_CREAT);
 		if(sh < 0) {
 			printf("Error: %s", strerror(errno));
 		}
-		sem = semget(ftok(story.out, 1), 1, IPC_CREAT);
+		sem = semget(ftok("story.out", 1), 1, IPC_CREAT);
 		if(sem < 0) {
 			printf("Error: %s", strerror(errno));
 		}
