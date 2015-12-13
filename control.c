@@ -43,6 +43,9 @@ int main(int argc, char *argv[]) {
 			printf("Error: %s\n", strerror(errno));
 		}
 		close(f);
+		int check = semctl(sem, 0, SETVAL, 1);
+		if(check < 0)
+			printf("Error: %s\n", strerror(errno));
 	}
 	else {
 		printf("No input");
