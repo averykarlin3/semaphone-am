@@ -38,7 +38,7 @@ int main(int argc, char *argv[]) {
 		if(sem < 0) {
 			printf("Error: %s\n", strerror(errno));
 		}
-		f = open("story", O_CREAT | O_RDWR, 0644);
+		f = open("story", O_CREAT | O_RDWR | O_TRUNC, 0644);
 		if(f < 0) {
 			printf("Error: %s\n", strerror(errno));
 		}

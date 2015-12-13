@@ -22,10 +22,9 @@ int main() {
 	if(f < 0)
 		printf("Error: %s\n", strerror(errno));
 	int* shn = shmat(sh, 0, 0);
-	printf("%d\n",*shn);
 	if(shn < 0)
 		printf("Error: %s\n", strerror(errno));
-	check = lseek(f, *shn, SEEK_END);
+	check = lseek(f, -1 * (*shn), SEEK_END);
 	if(check < 0)
 		printf("Error: %s\n", strerror(errno));
 	char last[*shn];
@@ -44,7 +43,6 @@ int main() {
 	if(check < 0)
 		printf("Error: %s\n", strerror(errno));
 	close(f);
-	//printf("%lu\n", strlen(new));
 	shmdt(shn);
 	enter.sem_op = 1;
 	check = semop(sem, &enter, 1);
