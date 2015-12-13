@@ -13,13 +13,13 @@ int main() {
 	if(check < 0) {
 		printf("Error: %s\n", strerror(errno));
 	}
-	int sh = shmget(ftok("story", 0), sizeof(int));
+	int sh = shmget(ftok("story", 0), sizeof(int), 0666);
 	if(sh < 0)
 		printf("Error: %s\n", strerror(errno));
 	int f = open("story", O_RDWR | O_CREAT | O_APPEND, 0666);
 	if(f < 0)
 		printf("Error: %s\n", strerror(errno));
-	int* shn = shmat(sh);
+	int* shn = shmat(sh, 0, 0);
 	if(shn < 0)
 		printf("Error: %s\n", strerror(errno));
 	check = lseek(f, *shn, SEEK_END);
