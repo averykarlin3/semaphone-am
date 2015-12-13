@@ -1,7 +1,9 @@
 #include "sema.h"
 
 int main() {
-	int sem = semget(ftok("story", 1), 1, 0666 | IPC_CREAT);
+	int shkey = ftok(".averybadatdebugging", 3);
+	int smkey = ftok(".averybadatdebugging", 4);
+	int sem = semget(smkey, 1, 0644 | IPC_CREAT);
 	if(sem < 0) {
 		printf("Error: %s\n", strerror(errno));
 	}
@@ -13,10 +15,10 @@ int main() {
 	if(check < 0) {
 		printf("Error: %s\n", strerror(errno));
 	}
-	int sh = shmget(ftok("story", 0), sizeof(int), 0666);
+	int sh = shmget(shkey, sizeof(int), 0644);
 	if(sh < 0)
 		printf("Error: %s\n", strerror(errno));
-	int f = open("story", O_RDWR | O_CREAT | O_APPEND, 0666);
+	int f = open("story", O_RDWR | O_CREAT | O_APPEND, 0644);
 	if(f < 0)
 		printf("Error: %s\n", strerror(errno));
 	int* shn = shmat(sh, 0, 0);
