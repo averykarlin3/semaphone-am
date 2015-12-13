@@ -1,7 +1,7 @@
 #include "sema.h"
 
 int main() {
-	int sem = semget(ftok("story.out", 1), 1, 666 | IPC_CREAT);
+	int sem = semget(ftok("story", 1), 1, 666 | IPC_CREAT);
 	if(sem < 0) {
 		printf("Error: %s\n", strerror(errno));
 	}
