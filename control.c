@@ -2,7 +2,11 @@
 
 int main(int argc, char *argv[]) {
 	int f, sh, sem;
+	int shkey = ftok("story", 0);
+	int smkey = ftok("story", 1);
 	if(!strcmp(argv[1], "-r")) {
+		sh = shmget(shkey, sizeof(int), 0644);
+		sem = semget(smkey, sizeof(int), 0644);
 		int check = shmctl(sh, IPC_RMID, NULL);
 		if(check == -1) {
 			printf("Error: %s\n", strerror(errno));
@@ -11,6 +15,7 @@ int main(int argc, char *argv[]) {
 		if(check == -1) {
 			printf("Error: %s\n", strerror(errno));
 		}
+		printf("hi\n");
 		f = open("story", O_RDONLY, 0444);
 		if(check == -1) {
 			printf("Error: %s\n", strerror(errno));
@@ -27,15 +32,14 @@ int main(int argc, char *argv[]) {
 	}
 	else if(!strcmp(argv[1], "-c")) {
 		f = open("story", O_CREAT | O_RDWR, 0666);
-		printf("ayyy\n");
 		if(f < 0) {
 			printf("Error: %s\n", strerror(errno));
 		}
-		sh = shmget(ftok("story", 0), sizeof(int), 0666 | IPC_CREAT);
+		sh = shmget(shkey, sizeof(int), 0666 | IPC_CREAT);
 		if(sh < 0) {
 			printf("Error: %s\n", strerror(errno));
 		}
-		sem = semget(ftok("story", 1), 1, IPC_CREAT);
+		sem = semget(smkey, 1, IPC_CREAT);
 		if(sem < 0) {
 			printf("Error: %s\n", strerror(errno));
 		}
