@@ -18,10 +18,11 @@ int main() {
 	int sh = shmget(shkey, sizeof(int), 0644);
 	if(sh < 0)
 		printf("Error: %s\n", strerror(errno));
-	int f = open("story", O_RDWR | O_CREAT | O_APPEND, 0644);
+	int f = open("story", O_RDONLY, 0644);
 	if(f < 0)
 		printf("Error: %s\n", strerror(errno));
 	int* shn = shmat(sh, 0, 0);
+	printf("%d\n",*shn);
 	if(shn < 0)
 		printf("Error: %s\n", strerror(errno));
 	check = lseek(f, *shn, SEEK_END);
@@ -31,15 +32,19 @@ int main() {
 	check = read(f, &last, *shn);
 	if(check < 0)
 		printf("Error: %s\n", strerror(errno));
+	printf("%s\n", last);
+	close(f);
+	f = open("story", O_WRONLY | O_APPEND, 0644);
 	char new[256];
 	printf("New Line: ");
 	fgets(new, sizeof(new), stdin);
-	printf("%s\n",new);
-	check = write(f, &new, *shn);
+	*shn = strlen(new); //Add one for null
+	char * tempstr = new;
+	check = write(f, tempstr, *shn);
 	if(check < 0)
 		printf("Error: %s\n", strerror(errno));
 	close(f);
-	*shn = strlen(new) + 1; //Add one for null
+	//printf("%lu\n", strlen(new));
 	shmdt(shn);
 	enter.sem_op = 1;
 	check = semop(sem, &enter, 1);
