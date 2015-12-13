@@ -38,6 +38,7 @@ int main(int argc, char *argv[]) {
 		if(sem < 0) {
 			printf("Error: %s", strerror(errno));
 		}
+		close(f);
 	}
 	else {
 		printf("No input");
