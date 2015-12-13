@@ -30,6 +30,7 @@ int main() {
 	if(check < 0)
 		printf("Error: %s\n", strerror(errno));
 	char new[256];
+	printf("New Line: ");
 	scanf("%s", new);
 	check = write(f, &new, *shn);
 	if(check < 0)

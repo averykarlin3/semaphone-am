@@ -14,8 +14,8 @@ create: control
 remove: control
 	./control -r
 
-write: write
-	./write
+write: writing
+	./writing
 
 clean:
 	rm *.o
