@@ -7,19 +7,30 @@ int main(int argc, char *argv[]) {
 		if(check == -1) {
 			printf("Error: %s", strerror(errno));
 		}
-
 		check = semctl(sem, 0, IPC_RMID);
 		if(check == -1) {
 			printf("Error: %s", strerror(errno));
 		}
-
+		f = open("story.out", O_RDONLY, 444);
+		if(check == -1) {
+			printf("Error: %s", strerror(errno));
+		}
+		struct stat sfile;
+		stat(f, &sfile);
+		char fst[sfile.st_size];
+		check = read(check, fst, sfile.st_size);
+		if(check == -1) {
+			printf("Error: %s", strerror(errno));
+		}
+		printf("%s", fst);
+		close(f);
 	}
 	else if(!strcmp(argv[1], "-c")) {
-		f = open("story.out", O_CREAT, 644);
+		f = open("story.out", O_CREAT | O_RDWR, 666);
 		if(f < 0) {
 			printf("Error: %s", strerror(errno));
 		}
-		sh = shmget(ftok("story.out", 0), sizeof(int), 644 | IPC_CREAT);
+		sh = shmget(ftok("story.out", 0), sizeof(int), 666 | IPC_CREAT);
 		if(sh < 0) {
 			printf("Error: %s", strerror(errno));
 		}
