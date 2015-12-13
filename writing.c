@@ -34,11 +34,11 @@ int main() {
 	char new[256];
 	printf("New Line: ");
 	scanf("%s", new);
+	*shn = strlen(new) + 1; //Add one for null
 	check = write(f, &new, *shn);
 	if(check < 0)
 		printf("Error: %s\n", strerror(errno));
 	close(f);
-	*shn = strlen(new) + 1; //Add one for null
 	shmdt(shn);
 	enter.sem_op = 1;
 	check = semop(sem, &enter, 1);
