@@ -16,7 +16,7 @@ int main(int argc, char *argv[]) {
 			printf("Error: %s\n", strerror(errno));
 		}
 		struct stat sfile;
-		stat(f, &sfile);
+		stat("story.out", &sfile);
 		char fst[sfile.st_size];
 		check = read(check, fst, sfile.st_size);
 		if(check == -1) {
