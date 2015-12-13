@@ -3,7 +3,7 @@
 int main() {
 	int sem = semget(ftok("story.out", 1), 1, 666 | IPC_CREAT);
 	if(sem < 0) {
-		printf("Error: %s", strerror(errno));
+		printf("Error: %s\n", strerror(errno));
 	}
 	struct sembuf enter;
 	enter.sem_flg = SEM_UNDO;
@@ -11,9 +11,9 @@ int main() {
 	enter.sem_num = 0;
 	int check = semop(sem, &enter, 1);
 	if(check < 0) {
-		printf("Error: %s", strerror(errno));
+		printf("Error: %s\n", strerror(errno));
 	}
-
+	
 	return 0;
 }
 
